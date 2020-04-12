@@ -7,7 +7,13 @@ const ioUtil = require("@actions/io/lib/io-util")
 async function run() {
   try {
     // Skips publishing if required - used to test configuration with pull-requests/etc
-    const skipPublish = core.getInput("skip-publish") || false;
+    let skipPublish = core.getInput("skip-publish") || false;
+    if (skipPublish === 'false') {
+      skipPublish = false;
+    }
+    if (!!skipPublish) {
+      console.log('skip-publish set to true.');
+    }
     const accessToken = core.getInput("access-token");
 
     if (!accessToken && !skipPublish) {
